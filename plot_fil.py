@@ -26,7 +26,15 @@ def centisec_formatter(x, pos):
     dt = mdates.num2date(x, tz=tz_ist)
     return f"{dt:%H:%M:%S}.{int(dt.microsecond/10000):02d}"
 
-def plot_fil(fil_data_file_path, t_start, savefig, showfig):
+def tstart_from_visi(raw_ts_path):
+    with open(f"{raw_ts_path}/Visi-R01.raw.ts", "r") as f:
+        lines = f.readlines()
+
+    tstart = float(lines[1].strip())
+    return tstart 
+
+def plot_fil(fil_data_file_path, raw_ts_path, savefig, showfig):
+    t_start = tstart_from_visi(raw_ts_path)
     m, org_data = readfil(fil_data_file_path)
 
     #org_sub_data = org_data  # shape: (n_freq, n_time)
@@ -80,4 +88,5 @@ def plot_fil(fil_data_file_path, t_start, savefig, showfig):
     if showfig != False:
         plt.show()
 
-plot_fil("../9Sept2025/PC_beam_RFI_Mitigated.fil", 1757367486.709775, 0, 1)
+plot_fil("../11Sept2025/PC_beam_RFI_Mitigated.fil", "/lustre_scratch/spotlight/data/POLCAL_20250911_021107/RawVisi/DT_20250911_034548_302159", 1,0)
+
