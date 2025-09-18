@@ -1,7 +1,8 @@
 #!/bin/bash
 # Script: run_make_pc_beam.sh
 
-BASE_DIR="/lustre_scratch/spotlight/data/TST3093_20250909_022047/RawVisi"
+BASE_DIR=$1
+band=$2
 input_fil="/lustre_data/spotlight/data/TST3093_20250909_022047/FilData/J0332+5434_20250909_030222/BM0.fil"
 
 for subdir in "$BASE_DIR"/*/; do
@@ -9,10 +10,10 @@ for subdir in "$BASE_DIR"/*/; do
 
     echo "▶️  Processing $subdir ..."
     python dat_to_beam.py \
-	--dat_file "$subdir"/22ant.dat \
-	--fil_file "$input_fil"\
-	--out_dir "$subdir"\
-	--band 4
+	-d "$subdir"/22ant.dat \
+	-f "$input_fil"\
+	-o "$subdir"\
+	-b $band 
 
 done
 
